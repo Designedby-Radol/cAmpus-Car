@@ -72,6 +72,7 @@ erDiagram
     VEHICULOS ||--o{ DETALLES_DE_VENTA : "es_vendido_en"
     VEHICULOS ||--o{ MANTENIMIENTOS : "recibe"
     CLIENTES ||--o{ MANTENIMIENTOS : "solicita"
+```
 ## Estructura de la Base de Datos
 
 ### Tablas Principales
@@ -192,34 +193,11 @@ $$ language plpgsql;
 create trigger after_sale_insert
 after insert on detalles_de_venta for each row
 execute function update_vehicle_availability();
-
-## Relaciones entre Entidades
-
-1. **Clientes y Ventas (1:N)**:
-   - Un cliente puede realizar múltiples compras.
-   - Cada venta está asociada a un único cliente.
-
-2. **Vendedores y Ventas (1:N)**:
-   - Un vendedor puede gestionar múltiples ventas.
-   - Cada venta es gestionada por un único vendedor.
-
-3. **Ventas y Vehículos (N:M)**:
-   - Una venta puede incluir múltiples vehículos.
-   - Un vehículo podría estar asociado a múltiples ventas (aunque normalmente solo a una).
-   - Esta relación se implementa mediante la tabla intermedia `detalles_de_venta`.
-
-4. **Vehículos y Mantenimiento (1:N)**:
-   - Un vehículo puede recibir múltiples servicios de mantenimiento.
-   - Cada servicio de mantenimiento está asociado a un único vehículo.
-
-5. **Clientes y Mantenimiento (1:N)**:
-   - Un cliente puede solicitar múltiples servicios de mantenimiento.
-   - Cada servicio está asociado a un único cliente (o a ninguno si el vehículo aún no ha sido vendido).
-
+```
 ## Implementacion
 El esquema SQL completo para crear esta base de datos es el siguiente:
 
-´´´
+```sql
 create table vehiculos (
   id bigint primary key generated always as identity,
   marca text not null,
@@ -283,5 +261,31 @@ $$ language plpgsql;
 create trigger after_sale_insert
 after insert on detalles_de_venta for each row
 execute function update_vehicle_availability();
+```
 
-´´´
+
+## Relaciones entre Entidades
+
+1. **Clientes y Ventas (1:N)**:
+   - Un cliente puede realizar múltiples compras.
+   - Cada venta está asociada a un único cliente.
+
+2. **Vendedores y Ventas (1:N)**:
+   - Un vendedor puede gestionar múltiples ventas.
+   - Cada venta es gestionada por un único vendedor.
+
+3. **Ventas y Vehículos (N:M)**:
+   - Una venta puede incluir múltiples vehículos.
+   - Un vehículo podría estar asociado a múltiples ventas (aunque normalmente solo a una).
+   - Esta relación se implementa mediante la tabla intermedia `detalles_de_venta`.
+
+4. **Vehículos y Mantenimiento (1:N)**:
+   - Un vehículo puede recibir múltiples servicios de mantenimiento.
+   - Cada servicio de mantenimiento está asociado a un único vehículo.
+
+5. **Clientes y Mantenimiento (1:N)**:
+   - Un cliente puede solicitar múltiples servicios de mantenimiento.
+   - Cada servicio está asociado a un único cliente (o a ninguno si el vehículo aún no ha sido vendido).
+
+
+
